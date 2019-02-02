@@ -1,0 +1,34 @@
+Client request:
+GET http://www.iana.org/domains/example HTTP/1.1
+Host: www.iana.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: http://example.com/
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+
+Server response:
+HTTP/1.1 302 Found
+Date: Sun, 03 Dec 2017 02:00:22 GMT
+X-Frame-Options: SAMEORIGIN
+Content-Security-Policy: upgrade-insecure-requests
+Location: https://www.iana.org/domains/reserved
+Cache-Control: max-age=7200
+Expires: Sun, 03 Dec 2017 04:00:22 GMT
+Content-Length: 221
+Content-Type: text/html; charset=iso-8859-1
+Server: Apache
+Strict-Transport-Security: max-age=47304003; preload
+X-Cache-Hits: 178
+Connection: keep-alive
+
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>302 Found</title>
+</head><body>
+<h1>Found</h1>
+<p>The document has moved <a href="https://www.iana.org/domains/reserved">here</a>.</p>
+</body></html>

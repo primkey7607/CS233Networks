@@ -1,0 +1,41 @@
+Waiting for ports to be allocated...
+Received ports..
+Asked for 16, got 16
+ack -1 4
+done sending the file, flow = 6
+done sending the file, flow = 1
+done sending the file, flow = 13
+ack -1 1
+done sending the file, flow = 3
+done sending the file, flow = 8
+done sending the file, flow = 2
+done sending the file, flow = 9
+done sending the file, flow = 4
+done sending the file, flow = 12
+done sending the file, flow = 7
+done sending the file, flow = 14
+ack -1 13
+done sending the file, flow = 15
+done sending the file, flow = 10
+done sending the file, flow = 0
+done sending the file, flow = 5
+ack -1 9
+done sending the file, flow = 11
+Conn_handler 2, finished 
+Conn_handler 1, finished 
+Conn_handler 0, finished 
+Conn_handler 4, finished 
+Conn_handler 3, finished 
+Conn_handler 5, finished 
+Conn_handler 6, finished 
+Conn_handler 7, finished 
+Conn_handler 8, finished 
+Conn_handler 9, finished 
+Conn_handler 10, finished 
+Conn_handler 12, finished 
+Conn_handler 11, finished 
+Conn_handler 13, finished 
+Conn_handler 14, finished 
+Conn_handler 15, finished 
+Finishing flow handler
+Main(): Waited on 16  flows. Done.

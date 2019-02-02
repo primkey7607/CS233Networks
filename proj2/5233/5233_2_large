@@ -1,0 +1,11 @@
+Waiting for ports to be allocated...
+Received ports..
+Asked for 2, got 2
+ack -1 0
+done sending the file, flow = 1
+done sending the file, flow = 0
+ack -1 1
+Conn_handler 1, finished 
+Conn_handler 0, finished 
+Finishing flow handler
+Main(): Waited on 2  flows. Done.

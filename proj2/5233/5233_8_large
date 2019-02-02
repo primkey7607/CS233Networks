@@ -1,0 +1,53 @@
+Waiting for ports to be allocated...
+Received ports..
+Asked for 8, got 8
+Congestion in connection 6
+. Backing off for a while
+Congestion in connection 2
+. Backing off for a while
+Congestion in connection 3
+. Backing off for a while
+Congestion in connection 0
+. Backing off for a while
+Congestion in connection 7
+. Backing off for a while
+Congestion in connection 7
+. Backing off for a while
+Congestion in connection 5
+. Backing off for a while
+Congestion in connection 1
+. Backing off for a while
+Congestion in connection 4
+. Backing off for a while
+Congestion in connection 0
+. Backing off for a while
+Congestion in connection 0
+. Backing off for a while
+Congestion in connection 6
+. Backing off for a while
+Congestion in connection 3
+. Backing off for a while
+Congestion in connection 1
+. Backing off for a while
+Congestion in connection 4
+. Backing off for a while
+Congestion in connection 4
+. Backing off for a while
+Congestion in connection 5
+. Backing off for a while
+Congestion in connection 2
+. Backing off for a while
+Congestion in connection 7
+. Backing off for a while
+ack -1 0
+done sending the file, flow = 0
+Conn_handler 1, finished 
+Conn_handler 0, finished 
+Conn_handler 4, finished 
+Conn_handler 2, finished 
+Conn_handler 3, finished 
+Conn_handler 5, finished 
+Conn_handler 6, finished 
+Conn_handler 7, finished 
+Finishing flow handler
+Main(): Waited on 8  flows. Done.

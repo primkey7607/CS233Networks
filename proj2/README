@@ -1,0 +1,81 @@
+Pranav Subramaniam, psubramaniam
+The contents of this file are meant to produce an executable that
+can act as a MPTCP client. It is important to note that
+when running this executable, it has the following options (all of which are required):
+
+./mptcp [-n num_interfaces] [-h hostname] [-p port] [-f filename]
+
+The functionalities described by these options for the program are:
+
+1) Establish a user-specified number of connections with the server. This is specified by the -n option at the command line.
+2) Use a hostname when connecting. This is always required, and for this project, there is only one acceptable hostname.
+3) Specify a port number to connect.
+4) Specify the name of the file to be transferred to the server.
+
+This program reliably transmits packets across multiple subflows through implementation
+of flow control and congestion control. To achieve this, the program has the
+following structure: the client makes an initial connection to the server, and
+after receiving the desired number of ports, it creates one thread per connection.
+ Within each of these connection threads, the client connects to a port provided
+by the server and then starts a send thread and a receive thread to send file data to the server
+and receive ACK's for the sent packets from the server.
+
+Flow control is achieved by keeping track of the highest 
+ACK number received from the server and the total bytes sent,
+ which we use to compute the latest sequence number of the packet the
+ client is about to send. If the difference between the latest sequence 
+number and the ACK number received is greater than RWIN, then we know that
+the next packet will be sent outside the server's "sliding" receive window,
+so nothing is sent over the connection until the latest ACK number received
+from the server is updated.
+
+Congestion control is achieved through two mechanisms: the first is the way
+threads are used in the design. If a packet is dropped on a connection that
+is more lossy than the others, then a thread on a better (faster) connection can
+successfully retransmit the dropped packet. This implies that most data will
+naturally be transmitted on the better connections.
+
+The second is the implementation of a more explicit congestion control scheme in
+ which the difference between the number of packets sent and the number of packets received is maintained
+for each flow. If the difference is more than RWIN/(number of flows), the thread detects this as CONGESTION.
+Then, it backs off by stopping the transmission of packets and sleeping for 3 seconds.
+
+ To avoid the case where all threads end up sleeping, we also maintain a count of the sleeping
+threads, and only put a thread to sleep if less than half of the connection threads are sleeping.
+ This way, most packets are sent on the more reliable connections.
+
+It is also worth mentioning that we use mutexes to cleanly exit the program. Specifically, once a receive thread
+receives ACK -1 from the server, it broadcasts its conditional mutex to all other threads (send, receive, and connection
+threads). The connection threads then kill the send and receive threads. After that, they send a signal to the main program,
+which kills the connection threads. The reason the program is written this way is so that no thread is receiving or sending
+on a closed connection.
+
+As of this submission, there are times when the server does not respond and the program seems to be waiting for server response.
+I have tried to capture these by looking for ACK 0 received from the server continuously for half a million iterations across flows.
+In such an event, I output an appropriate message and retransmit from sequence number 1. This retransmission is successful at times
+but also leads to mp_recv denials and errors from the server. I do not exit the program on such events, so the program has to be 
+manually terminated from the console by pressing Ctrl+C.
+
+Also, sometimes the server sends garbage instead of sending port numbers as it should. In this case, I just exit the program.
+Another important thing to note is that my program prints status messages, because there was a variability in server behavior
+ that made it difficult to determine whether the file was actually successfully transmitted or not without print messages. Specifically, I print out:
+a) the ports requested, b) the ACK number received from the server (if it's -1), c) whether or not the threads were 
+successfully canceled, (d) whether or not a thread had to back off, and (e) whether the program successfully killed the connection
+threads and exited. Hopefully, this status information is useful in giving the client a clear indication about whether or not
+the file was actually received by the server. 
+
+For this reason, I have included my sample input files and the outputted print statements from my program
+in the 5234 and 5233 directories, to show that my program works most of the time. The 5233 outputs are for the reliable server,
+ and the 5234 outputs are for the lossy server. Each output file in those folders has the format 523x_y_z, where x is 3 or 4,
+y indicates the number of flows requested (1, 2, 4, 8, or 16) and z is "small", "medium", or "large". The "small" file is called
+wfile.txt, the "medium" file is 10_4file.txt, and the "large" file is lgfile.txt. In all these cases, the program receives
+ACK -1 and exits normally. NOTE: the output files actually will not exactly match the output my program prints out, because
+they were part of a previous submission. I have since cleaned up my print statements so they are shorter and more clear.
+
+IMPORTANT-To run the program:
+
+Included in this folder is a Makefile, the C source code file, mptcp.h, and the library, libmptcp.a. The Makefile has only one statement. This statement
+must compile using the "-L" option to specify where the libmptcp.a library is. That means that you must change the directory specified after
+the "-L" to wherever your copy of libmptcp.a is. (If that means using the copy of the library inside my folder, 
+then the directory should be (your working directory)/psubramaniam). Once this has been done, you can simply enter the command "make". 
+Then, use the resulting mptcp executable file as described above. Also, to get rid of the executable, run "make clean".

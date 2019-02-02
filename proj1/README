@@ -1,0 +1,39 @@
+Pranav Subramaniam, psubramaniam
+The contents of this file are meant to produce an executable that
+can perform some of the same functions as netcat. It is important to note that
+when running this executable, it has the following options (some of which are required-these
+are not surrounded by brackets):
+
+./snc [-l] [-u] [hostname] port
+
+The functionalities described by these options for the program are:
+
+1) Act as a client or server. This is specified by the -l option at the command line (-l for server, nothing for client)
+2) Use TCP or UDP. This is specified by the -u option (-u for UDP, nothing for TCP)
+3) Use a hostname (or don't) when connecting. The hostname is required if the program will be acting as a client. That is,
+if -l is not one of the arguments to the program, then the hostname must be present.
+4) Specify a port number to connect (required).
+
+This program supports these functionalities for a simple client-server model, in which the client can only send messages,
+and the server can only receive them.
+
+The only issue encountered is that, as of my submitting this, it is unclear whether a netcat UDP client should
+close the connection and exit the program by pressing Ctrl+D, or whether pressing Ctrl+D should simply stop the client
+from sending anything more, but leave it running (and leave the connection open).  I have implemented both, and have made it
+so that both files can be run. I explain how to run each version below:
+
+Included in this folder is a Makefile and the C source code file that for which the UDP client closes
+the connection and exits when Ctrl+D is pressed (snc.c), and the file that simply stops the client
+from sending (snc2.c). If both interpretations of the program design are acceptable, I would like snc.c
+to be evaluated. The Makefile compiles this as the top-most statement, so you can create the executable using the
+command "make", or "make snc". Then, use the resulting snc executable file as described above.
+
+Alternatively, you can use the command, "make snc2" to compile snc2.c and then run:
+
+./snc2 [-l] [-u] [hostname] port
+
+After executing, if you executed the program as a client, no prompt will appear, just like in the real netcat.
+Simply start entering values to stdin (manually, or by inputting a file). If you executed the program as a server,
+you simply wait for information to arrive. If you entered invalid options, an error message will appear reminding
+you of your options. If the program runs into an error, it will print, "internal error: " followed by details about
+the error, and then the program will exit.
